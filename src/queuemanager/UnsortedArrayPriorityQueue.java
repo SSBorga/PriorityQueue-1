@@ -96,19 +96,32 @@ public class UnsortedArrayPriorityQueue<T> implements PriorityQueue<T> {
      */
    
      @Override
-     public void remove() throws QueueUnderflowException {
+    public void remove() throws QueueUnderflowException {
         if (isEmpty()) {
             throw new QueueUnderflowException();
-        } 
-        
-        
-        else {
-            for (int i = 0; i < tailIndex; i++) {
-                storage[i] = storage[i + 1];
-            }
-            tailIndex = tailIndex - 1;
         }
-    }
+      
+        T removeElement =head();
+
+        for (int i = 0; i <= tailIndex; i++) {
+          //This is to move the highest priority to the top or head
+
+            if (((PriorityItem<T>) storage[i]).getItem()== removeElement) {
+           
+                //parameters used (source array,src position,dest,destPos)
+                System.arraycopy(storage, i + 1, storage, i, tailIndex - 1 );
+                tailIndex --;
+               //This is required to avoid repetition of removal.
+                break;
+                
+           } 
+        
+        }
+
+        }
+   
+     
+    
         
         
       
