@@ -1,95 +1,29 @@
 package queuemanager;
 
-import static java.awt.AWTEventMulticaster.add;
-import static javafx.scene.input.KeyCode.T;
-
 /**
- * Implementation of the PriorityQueue ADT using a sorted array for storage.
+ * Implementation of the PriorityQueue ADT using a sorted linked list
+ * for storage.
  *
- * The sorted array priority queue adds items with the highest priority
- * at the start of the array. The item at the start of the array is always
- * the first to be removed.
+ * The sorted linked list priority queue adds items with the highest priority
+ * at the first position in the queue. The item at the top of the queue
+ * is always the first to be removed.
  * 
  * @param <T> The type of things being stored.
  */
 public class SortedLinkedPriorityQueue<T> implements PriorityQueue<T> {
 
-    private int size;     // size of the stack
-    private Node top;     // top of stack
-    
-    // helper linked list class
-    private class Node {
-        private T item;
-        private Node nextNode;
-        private int priority;
-
-        public Node(T item, int priority) {
-            this.item = item;
-            this.priority = priority;
-        }
-
-        public Node(T item, Node nextNode, int priority) {
-            this.item = item;
-            this.nextNode = nextNode;
-            this.priority = priority;
-        }
-
-        public Node(int priority) {
-            this.priority = priority;
-        }
-         public Node() {
-        }
-        public Node getNextNode(T item, int Priority) {
-            return nextNode;
-        }
-
-        public void setNextNode(Node nextNode) {
-            this.nextNode = nextNode;
-        }
-
-        public int getPriority() {
-            return priority;
-        }
-
-        public void setPriority(int priority) {
-            this.priority = priority;
-        }
-
-         public T getItem() {
-            return item;
-        }
-
-        public void setItem(T item) {
-            this.item = item;
-        }
-  public Node getTop() {
-        return top;
-    }
-
-    
-       
-@Override
-public String toString(){
-    return "Item:"+ getItem()+getPriority();
+    /**
+     * The bundled priority item object.
+     */
+    private ListNode<T> top;
    
- 
-
-  
-    }
-
-       
-    }
-  
    
-
-   // private item<T> top;
 
     /**
-     * Create a new empty queue of the given size.
+     * Initialise the first item with a null pointer.
      */
     public SortedLinkedPriorityQueue() {
         top = null;
-        size = 0;
     }
 
     /**
@@ -97,10 +31,7 @@ public String toString(){
      * 
      * @return item
      */
-    @Override
-    public T head() throws QueueUnderflowException {
-        return null;
-    }
+   
 
     /**
      * Add a new item to the queue.
@@ -110,75 +41,54 @@ public String toString(){
      */
     @Override
     public void add(T item, int priority) throws QueueOverflowException {
-        
-        if (top == null) {
-        
-            System.out.println("Inserting first node");
-   Node newNode; 
-            newNode = new Node();
-    newNode.setNextNode(this.top);
-    this.top = newNode;
-    
-       // System.out.println(add.toString(newNode));
-        System.out.println("Inserting further node"+newNode);
-//        }
-       
-            
- //top = new Node();
-        //   top.item = item;
-       //  top.priority = priority;
-       //   top.next = null;
-// // } else {
-//     /**      for (int i = 0; i <12; i++){ 
-//        Node next = top;
-//         Node prev = next;}
-//          
-//      while (Node  = top; node != null; node = node.next) {
-//if (priority > node.priority) {*/
-//                  break;
-//                }
-//             prev = next;
-//              next = next.getNext();
-////                
-//            }
-            
-           
-        
-            /*
-                if (priority > node.priority) {
-                    
-                    System.out.println("This node is a higher priority");
-                    
-                    Node oldfirst = top;
-                    top = new Node();
-                    top.item = item;
-                    top.priority = priority;
-                    top.next = oldfirst;
-                    
-                    System.out.println("oldfirst:" + oldfirst);
-                } else {
-                
-                    System.out.println("This node is a lower priority");
-                    
-                    
+       PriorityItem newPriority = new PriorityItem(item, priority);
+       top = new ListNode<>(newPriority,top);
+
+     /**   if (top == null) {
+            top = ListNode;
+           ListNode = null;
+        } else {
+            PriorityItem next = top;
+            PriorityItem prev = next;
+
+            while (next != null) {
+                if (priority > next.getPriority()) {
+                    // stop iteratng and insert
+                    break;
                 }
-            } */
-        }
+                prev = next;
+                next = next.getNext();
+            }
+
+            node.setNext(next);
+            if (node.getPriority() > top.getPriority()) {
+                top = node;
+            } else {
+                prev.setNext(node);
+            }
+        }*/
     }
-      //  size++;
-   // }
+ @Override
+    public T head() throws QueueUnderflowException {
+        if (isEmpty()) {
+            throw new QueueUnderflowException();
+        } else {
+          //  return new ListNode<>(newPriority,top).getItem();
+            
+                return top.getItem().getItem();
+            }
+        }
+   
 
     /**
-     * Remove an item from the queue.
+     * Remove the first item from the queue.
      */
     @Override
     public void remove() throws QueueUnderflowException {
         if (isEmpty()) {
             throw new QueueUnderflowException();
         } else {
-            T item = top.item;        // save item to return
-            top = top.nextNode;            // delete first node
-            size--;
+            top = top.getNext();
         }
     }
 
@@ -195,37 +105,20 @@ public String toString(){
      * 
      * @return result
      */
-  //https://stackoverflow.com/questions/29140402/how-do-i-print-my-java-object-without-getting-sometype2f92e0f4/29140403#29140403
-    
-  /**  @Override
-     public String toString() {
-        String result = "LinkedList:  " ;
-        result += ", ";
-        for (Node node = top; node != null; node = node.getNextNode()) {
-            if (node != top) {
-                result += ", "+ top.getNextNode();
+    @Override
+    public String toString() {
+        String result = "LinkedList: size = " ;
+        result += ", contents = [";
+        for (ListNode<T> newPriority = top; newPriority != null; newPriority = newPriority.getNext()) {
+            if (newPriority != top) {
+                result += ", ";
             }
-            result += node.getNextNode();
+            result += newPriority.getItem();
         }
-        result += "], isEmpty() = " + isEmpty();
+      /**  result += "], isEmpty() = " + isEmpty();
         if (!isEmpty()) {
             result += ", top() = " + top;
-        }
+        }*/
         return result;
-    }*/
-    @Override 
-   public String toString() {
-       String result = "{";
-        Node current =this.top;
-       while(current !=null)
-       {
-               result = result +=current.toString()+ ", ";
-                current =current.getTop();
-           }
-           
-      
-       result += "}";
-      return result;
     }
 }
-
