@@ -87,8 +87,10 @@ public  class SortedArrayPriorityQueue<T> implements PriorityQueue<T>  {
         else {
             for (int i = 0; i < tailIndex; i++) {
                 storage[i] = storage[i + 1];
+               
             }
             tailIndex = tailIndex - 1;
+           
         }
     }
 

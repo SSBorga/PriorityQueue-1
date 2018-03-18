@@ -37,10 +37,15 @@ public class QueueManager {
                 break;
               
             case "sl":
+               q = new SortedLinkedPriorityQueue<>();
+                System.out.println("Using a unsortedList.");
+                break;
             case "ul":
+                
+                
             case "h":
             default:
-                q = new SortedArrayPriorityQueue<>(8);
+                q = new UnsortedArrayPriorityQueue<>(8);
                 System.out.println("Invalid choice, using sorted array.");
                 break;
         }
@@ -108,7 +113,5 @@ public class QueueManager {
         }
         System.out.println("Bye");
     }
-
-    public QueueManager() {
-    }
 }
+   
