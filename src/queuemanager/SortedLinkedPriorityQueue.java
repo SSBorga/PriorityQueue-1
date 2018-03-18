@@ -1,6 +1,7 @@
 package queuemanager;
 
 import static java.awt.AWTEventMulticaster.add;
+import static javafx.scene.input.KeyCode.T;
 
 /**
  * Implementation of the PriorityQueue ADT using a sorted array for storage.
@@ -38,7 +39,7 @@ public class SortedLinkedPriorityQueue<T> implements PriorityQueue<T> {
         }
          public Node() {
         }
-        public Node getNextNode() {
+        public Node getNextNode(T item, int Priority) {
             return nextNode;
         }
 
@@ -61,23 +62,24 @@ public class SortedLinkedPriorityQueue<T> implements PriorityQueue<T> {
         public void setItem(T item) {
             this.item = item;
         }
+  public Node getTop() {
+        return top;
+    }
 
+    
        
 @Override
 public String toString(){
-    return "Item:"+this.getNextNode();
-} 
+    return "Item:"+ getItem()+getPriority();
+   
+ 
 
   
     }
 
-    public Node getTop() {
-        return top;
+       
     }
-
-    public void setTop(Node top) {
-        this.top = top;
-    }
+  
    
 
    // private item<T> top;
@@ -218,7 +220,7 @@ public String toString(){
        while(current !=null)
        {
                result = result +=current.toString()+ ", ";
-                current =current.getNextNode();
+                current =current.getTop();
            }
            
       
