@@ -41,33 +41,41 @@ public class SortedLinkedPriorityQueue<T> implements PriorityQueue<T> {
      */
     @Override
     public void add(T item, int priority) throws QueueOverflowException {
-       PriorityItem newPriority = new PriorityItem(item, priority);
+       PriorityItem newPriority = new PriorityItem(item, priority);      
        top = new ListNode<>(newPriority,top);
+ 
+   //   new ListNode<>(newPriority,top).setNext(null);
+      if (top == null) {
+            top = new ListNode<>(newPriority,top);
+       
+     //new ListNode<>(newPriority,top) .setNext(null);
+      
+           ListNode<T> next = top;
+     
+          
+          //  ListNode<T> current = next;
 
-     /**   if (top == null) {
-            top = ListNode;
-           ListNode = null;
-        } else {
-            PriorityItem next = top;
-            PriorityItem prev = next;
-
-            while (next != null) {
-                if (priority > next.getPriority()) {
+            while ( top != null) {
+                if (top.getItem().getPriority() <  next.getItem().getPriority()) {
+             
                     // stop iteratng and insert
-                    break;
-                }
-                prev = next;
-                next = next.getNext();
-            }
-
-            node.setNext(next);
-            if (node.getPriority() > top.getPriority()) {
-                top = node;
-            } else {
-                prev.setNext(node);
-            }
-        }*/
+             top =  new ListNode<T>(newPriority,top);
+            next= top;
+              
+           // 
+           
+          //  break;
+          
+           } top.setNext(new ListNode<>(newPriority,next.getNext()));
+            
+        }
+   
+      }
     }
+    
+
+    
+
  @Override
     public T head() throws QueueUnderflowException {
         if (isEmpty()) {
@@ -105,8 +113,8 @@ public class SortedLinkedPriorityQueue<T> implements PriorityQueue<T> {
      * 
      * @return result
      */
-    @Override
-    public String toString() {
+     @Override
+   public String toString() {
         String result = "LinkedList: size = " ;
         result += ", contents = [";
         for (ListNode<T> newPriority = top; newPriority != null; newPriority = newPriority.getNext()) {
